@@ -13,8 +13,10 @@ if ($_SERVER['HTTP_X_API_KEY'] ?? null !== $apiKey) {
 }
 
 // Get the file data from the POST request
-$fileData = file_get_contents($_FILES['file']['tmp_name']);
-$destinationPath = $_POST['path'];
+$fileUrl = $_POST['url'] ?? throw new InvalidArgumentException('Missing url');
+$fileData = file_get_contents($fileUrl);
+$parts = explode('.', $fileUrl) ?? [$fileUrl];
+$filename = date('Y-m-d') . '-' . md5($fileData) . $parts[count($parts) - 1];
 
 // Set up the WebDAV client
 $client = new Client([
@@ -24,7 +26,7 @@ $client = new Client([
 ]);
 
 // Upload the file
-$response = $client->request('PUT', $destinationPath, $fileData);
+$response = $client->request('PUT', $filename, $fileData);
 
 // Check the response
 if ($response['statusCode'] == 201) {
