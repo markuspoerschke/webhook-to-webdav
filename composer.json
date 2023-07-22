@@ -1,0 +1,13 @@
+{
+    "name": "mpoerschke/webhook-to-webdav",
+    "authors": [
+        {
+            "name": "Markus Poerschke",
+            "email": "markus@poerschke.nrw"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "sabre/dav": "^4.4"
+    }
+}
